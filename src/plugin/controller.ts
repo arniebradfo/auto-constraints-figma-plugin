@@ -160,14 +160,10 @@ function isGeometryNode(node: SceneNode | DocumentNode | PageNode): boolean {
 }
 
 type GeometryNode =
-	// DocumentNode | PageNode
-	// | SliceNode
 	| FrameNode
-	// | GroupNode
 	| ComponentSetNode
 	| ComponentNode
 	| InstanceNode
-	// | BooleanOperationNode
 	| VectorNode
 	| StarNode
 	| LineNode
@@ -175,15 +171,3 @@ type GeometryNode =
 	| PolygonNode
 	| RectangleNode
 	| TextNode;
-// | StickyNode
-// | ConnectorNode
-// | ShapeWithTextNode
-// | CodeBlockNode
-// | StampNode
-// | WidgetNode
-// | EmbedNode
-// | LinkUnfurlNode
-// | MediaNode
-// | SectionNode
-// | HighlightNode
-// | WashiTapeNode
