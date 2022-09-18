@@ -8,7 +8,11 @@ const autoConstrainSelf = () => {
 	// TODO: figma.currentPage.selection.forEach(child=>{});
 	const child = figma.currentPage.selection[0];
 
+	const parent = child.parent;
+
 	// if child.type === 'GROUP', get children recursively? or ignore?
+
+    // TODO: improve this
 	if (
 		child.type === 'SLICE' ||
 		child.type === 'GROUP' ||
@@ -25,51 +29,66 @@ const autoConstrainSelf = () => {
 		child.type === 'SECTION' ||
 		child.type === 'WASHI_TAPE'
 	)
+		return;
+	if (
+		parent.type === 'SLICE' ||
+		parent.type === 'GROUP' ||
+		parent.type === 'BOOLEAN_OPERATION' ||
+		// FigJam Nodes
+		parent.type === 'STICKY' ||
+		parent.type === 'CONNECTOR' ||
+		parent.type === 'SHAPE_WITH_TEXT' ||
+		parent.type === 'CODE_BLOCK' ||
+		parent.type === 'WIDGET' ||
+		parent.type === 'EMBED' ||
+		parent.type === 'MEDIA' ||
+		parent.type === 'LINK_UNFURL' ||
+		parent.type === 'SECTION' ||
+		parent.type === 'WASHI_TAPE'
+	)
         return;
     
-    // TODO: need absoluteBoundingBox instead of height/width properties 
-	const { parent, width: childWidth, height: childHeight, x: childX, y: childY } = child;
-	console.log({ parent, child });
+    
 	if (parent.type === 'PAGE' || parent.type === 'DOCUMENT') return;
 
-	const { width: parentWidth, height: parentHeight } = parent;
+	// TODO: need absoluteBoundingBox instead of height/width properties
 
-	const childSides: Sides = {
-		top: childY,
-		bottom: childY + childHeight,
-		left: childX,
-		right: childX + childWidth,
-	};
+	// const { width: childWidth, height: childHeight, x: childX, y: childY } = child;
+	console.log({ parent, child });
+
+	const childSides = getSides(child.absoluteBoundingBox, parent.absoluteBoundingBox);
 	const parentSides: Sides = {
 		top: 0,
-		bottom: parentHeight,
+		bottom: parent.absoluteBoundingBox.height,
 		left: 0,
-		right: parentWidth,
+		right: parent.absoluteBoundingBox.width,
 	};
 
 	// console.log({ childSides, parentSides });
-	console.log({ childWidth, childX });
+	// console.log({ childWidth, childX });
 
 	const childVertical: Line = {
-		start: childY,
-		end: childY + childHeight,
+		start: childSides.top,
+		end: childSides.bottom,
 	};
 	const childHorizontal: Line = {
-		start: childX,
-		end: childX + childWidth,
+		start: childSides.left,
+		end: childSides.right,
 	};
 	const parentVertical: Line = {
-		start: 0,
-		end: parentHeight,
+		start: parentSides.top,
+		end: parentSides.bottom,
 	};
 	const parentHorizontal: Line = {
-		start: 0,
-		end: parentWidth,
+		start: parentSides.left,
+		end: parentSides.right,
 	};
 
 	// horizontal first...
 	// - if child centered in parent
-	if (isCentered(childHorizontal, parentHorizontal)) {
+    if (isCentered(childHorizontal, parentHorizontal)) {
+        console.log({isCentered:isCentered(childHorizontal, parentHorizontal)});
+        
 		const parentLength = parentHorizontal.end - parentHorizontal.start;
 		const childLength = childHorizontal.end - childHorizontal.start;
 
@@ -144,32 +163,20 @@ function isCentered(line1: Line, line2: Line): boolean {
 	const marginEnd = line1.end - line2.end;
 	console.log({ marginEnd, marginStart, line1, line2 });
 	// provide a pixel of leniency for centered odd widths and fractional widths
-	return marginStart >= marginEnd - 1 && marginStart <= marginStart + 1;
+	return marginStart >= marginEnd - 1 && marginStart <= marginEnd + 1;
 }
 
-/* 
-function hasConstraints(node: SceneNode) {
-	return !(node.type === 'SLICE' || node.type === 'GROUP' || node.type === 'BOOLEAN_OPERATION' || isFigJamNode(node));
+function getSides(rect: Rect, parentRect: Rect = defaultRect): Sides {
+	const top = rect.y - parentRect.y;
+	const bottom = top + rect.height;
+	const left = rect.x - parentRect.x;
+	const right = left + rect.width;
+	return {
+		top,
+		bottom,
+		left,
+		right,
+	};
 }
-function isFigJamNode(node: SceneNode) {
-	return (
-		node.type === 'STICKY' ||
-		node.type === 'CONNECTOR' ||
-		node.type === 'SHAPE_WITH_TEXT' ||
-		node.type === 'CODE_BLOCK' ||
-		node.type === 'WIDGET' ||
-		node.type === 'EMBED' ||
-		node.type === 'MEDIA' ||
-		node.type === 'LINK_UNFURL' ||
-		node.type === 'SECTION' ||
-		node.type === 'WASHI_TAPE'
-	);
-}
- */
 
-function isEven(n) {
-	return n % 2 == 0;
-}
-function isOdd(n) {
-	return Math.abs(n % 2) == 1;
-}
+const defaultRect: Rect = { x: 0, y: 0, height: 0, width: 0 };
