@@ -1,5 +1,6 @@
 import * as React from 'react';
 import '../styles/ui.css';
+import logo from '../assets/logo.svg';
 
 declare function require(path: string): any;
 
@@ -32,7 +33,7 @@ const App = ({}) => {
 
     return (
         <div>
-            <img src={require('../assets/logo.svg')} />
+            <img src={logo} />
             <h2>Rectangle Creator</h2>
             <p>
                 Count: <input ref={countRef} />
