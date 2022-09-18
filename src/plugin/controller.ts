@@ -6,54 +6,13 @@ const autoConstrainSelf = () => {
 	// console.log(figma.currentPage.selection);
 
 	// TODO: figma.currentPage.selection.forEach(child=>{});
-	const child = figma.currentPage.selection[0];
-
-	const parent = child.parent;
+	const child = figma.currentPage.selection[0] as GeometryNode;
+	const parent = child.parent as GeometryNode;
 
 	// if child.type === 'GROUP', get children recursively? or ignore?
 
-    // TODO: improve this
-	if (
-		child.type === 'SLICE' ||
-		child.type === 'GROUP' ||
-		child.type === 'BOOLEAN_OPERATION' ||
-		// FigJam Nodes
-		child.type === 'STICKY' ||
-		child.type === 'CONNECTOR' ||
-		child.type === 'SHAPE_WITH_TEXT' ||
-		child.type === 'CODE_BLOCK' ||
-		child.type === 'WIDGET' ||
-		child.type === 'EMBED' ||
-		child.type === 'MEDIA' ||
-		child.type === 'LINK_UNFURL' ||
-		child.type === 'SECTION' ||
-		child.type === 'WASHI_TAPE'
-	)
-		return;
-	if (
-		parent.type === 'SLICE' ||
-		parent.type === 'GROUP' ||
-		parent.type === 'BOOLEAN_OPERATION' ||
-		// FigJam Nodes
-		parent.type === 'STICKY' ||
-		parent.type === 'CONNECTOR' ||
-		parent.type === 'SHAPE_WITH_TEXT' ||
-		parent.type === 'CODE_BLOCK' ||
-		parent.type === 'WIDGET' ||
-		parent.type === 'EMBED' ||
-		parent.type === 'MEDIA' ||
-		parent.type === 'LINK_UNFURL' ||
-		parent.type === 'SECTION' ||
-		parent.type === 'WASHI_TAPE'
-	)
-        return;
-    
-    
-	if (parent.type === 'PAGE' || parent.type === 'DOCUMENT') return;
+	if (!isGeometryNode(child) || !isGeometryNode(parent)) return;
 
-	// TODO: need absoluteBoundingBox instead of height/width properties
-
-	// const { width: childWidth, height: childHeight, x: childX, y: childY } = child;
 	console.log({ parent, child });
 
 	const childSides = getSides(child.absoluteBoundingBox, parent.absoluteBoundingBox);
@@ -63,9 +22,6 @@ const autoConstrainSelf = () => {
 		left: 0,
 		right: parent.absoluteBoundingBox.width,
 	};
-
-	// console.log({ childSides, parentSides });
-	// console.log({ childWidth, childX });
 
 	const childVertical: Line = {
 		start: childSides.top,
@@ -86,9 +42,9 @@ const autoConstrainSelf = () => {
 
 	// horizontal first...
 	// - if child centered in parent
-    if (isCentered(childHorizontal, parentHorizontal)) {
-        console.log({isCentered:isCentered(childHorizontal, parentHorizontal)});
-        
+	if (isCentered(childHorizontal, parentHorizontal)) {
+		console.log({ isCentered: isCentered(childHorizontal, parentHorizontal) });
+
 		const parentLength = parentHorizontal.end - parentHorizontal.start;
 		const childLength = childHorizontal.end - childHorizontal.start;
 
@@ -180,3 +136,54 @@ function getSides(rect: Rect, parentRect: Rect = defaultRect): Sides {
 }
 
 const defaultRect: Rect = { x: 0, y: 0, height: 0, width: 0 };
+
+function isGeometryNode(node: SceneNode | DocumentNode | PageNode): boolean {
+	return !(
+		node.type === 'DOCUMENT' ||
+		node.type === 'PAGE' ||
+		node.type === 'SLICE' ||
+		node.type === 'GROUP' ||
+		node.type === 'BOOLEAN_OPERATION' ||
+		node.type === 'STICKY' ||
+		node.type === 'CONNECTOR' ||
+		node.type === 'SHAPE_WITH_TEXT' ||
+		node.type === 'CODE_BLOCK' ||
+		node.type === 'STAMP' ||
+		node.type === 'WIDGET' ||
+		node.type === 'EMBED' ||
+		node.type === 'LINK_UNFURL' ||
+		node.type === 'MEDIA' ||
+		node.type === 'SECTION' ||
+		node.type === 'HIGHLIGHT' ||
+		node.type === 'WASHI_TAPE'
+	);
+}
+
+type GeometryNode =
+	// DocumentNode | PageNode
+	// | SliceNode
+	| FrameNode
+	// | GroupNode
+	| ComponentSetNode
+	| ComponentNode
+	| InstanceNode
+	// | BooleanOperationNode
+	| VectorNode
+	| StarNode
+	| LineNode
+	| EllipseNode
+	| PolygonNode
+	| RectangleNode
+	| TextNode;
+// | StickyNode
+// | ConnectorNode
+// | ShapeWithTextNode
+// | CodeBlockNode
+// | StampNode
+// | WidgetNode
+// | EmbedNode
+// | LinkUnfurlNode
+// | MediaNode
+// | SectionNode
+// | HighlightNode
+// | WashiTapeNode
