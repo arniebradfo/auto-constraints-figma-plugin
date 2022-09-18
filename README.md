@@ -11,7 +11,7 @@ Apply constraints layout automatically based on child placement within parent fr
 
 ## Pseudo code
 - if child centered in parent
-  - if parent childWidth > 50% parentWidth
+  - if childWidth is less than 50% of parentWidth
     - then center
     - else fix both sides
 - else if childSide is within 15% of ParentSide
