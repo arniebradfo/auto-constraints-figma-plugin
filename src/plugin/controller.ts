@@ -41,12 +41,15 @@ const autoConstrainSelf = () => {
 	};
 
 	// horizontal first...
-	// - if child centered in parent
-	if (isCentered(childHorizontal, parentHorizontal)) {
-		console.log({ isCentered: isCentered(childHorizontal, parentHorizontal) });
+	const childLine = childHorizontal;
+	const parentLine = parentHorizontal;
 
-		const parentLength = parentHorizontal.end - parentHorizontal.start;
-		const childLength = childHorizontal.end - childHorizontal.start;
+	const parentLength = parentLine.end - parentLine.start;
+	const childLength = childLine.end - childLine.start;
+
+	// - if child centered in parent
+	if (isCentered(childLine, parentLine)) {
+		console.log({ isCentered: isCentered(childLine, parentLine) });
 
 		//   - if parent childWidth < 50% parentWidth
 		if (childLength < parentLength * 0.5) {
@@ -63,13 +66,35 @@ const autoConstrainSelf = () => {
 			};
 		}
 	} else {
-		child.constraints = {
-			horizontal: 'SCALE',
-			vertical: child.constraints.vertical,
-		};
 		// - else if childSide is within 15% of ParentSide
+
+		const edgeTolerance = 0.15;
+		const stickLeft = childLine.start < parentLength * edgeTolerance;
+		const stickRight = childLine.end > parentLength * (1 - edgeTolerance);
+
 		//   - then fix side
-		//   - else center side
+		if (stickLeft && stickRight) {
+			child.constraints = {
+				horizontal: 'STRETCH',
+				vertical: child.constraints.vertical,
+			};
+		} else if (stickLeft) {
+			child.constraints = {
+				horizontal: 'MIN',
+				vertical: child.constraints.vertical,
+			};
+		} else if (stickRight) {
+			child.constraints = {
+				horizontal: 'MAX',
+				vertical: child.constraints.vertical,
+			};
+		} else {
+			//   - else center side
+			child.constraints = {
+				horizontal: 'CENTER',
+				vertical: child.constraints.vertical,
+			};
+		}
 	}
 };
 
