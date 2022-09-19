@@ -9,7 +9,8 @@ const autoConstrainSelf = () => {
 	const child = figma.currentPage.selection[0] as GeometryNode;
 	const parent = child.parent as GeometryNode;
 
-	// if child.type === 'GROUP', get children recursively? or ignore?
+	// if child.type === 'GROUP', get children recursively - ignore for now
+	// if parent.type === 'GROUP', get parent recursively - ignore for now
 
 	if (!isGeometryNode(child) || !isGeometryNode(parent)) return;
 
@@ -40,63 +41,40 @@ const autoConstrainSelf = () => {
 		end: parentSides.right,
 	};
 
-	// horizontal first...
-	const childLine = childHorizontal;
-	const parentLine = parentHorizontal;
+    const horizontal = autoConstraint(childHorizontal, parentHorizontal);
+	const vertical = autoConstraint(childVertical, parentVertical);
+	child.constraints = {
+		horizontal,
+		vertical,
+	};
+};
 
+function autoConstraint(childLine: Line, parentLine: Line): ConstraintType {
 	const parentLength = parentLine.end - parentLine.start;
 	const childLength = childLine.end - childLine.start;
 
-	// - if child centered in parent
 	if (isCentered(childLine, parentLine)) {
-		console.log({ isCentered: isCentered(childLine, parentLine) });
-
-		//   - if parent childWidth < 50% parentWidth
 		if (childLength < parentLength * 0.5) {
-			//     - then center
-			child.constraints = {
-				horizontal: 'CENTER',
-				vertical: child.constraints.vertical,
-			};
+			return 'CENTER';
 		} else {
-			//     - else fix both sides
-			child.constraints = {
-				horizontal: 'STRETCH',
-				vertical: child.constraints.vertical,
-			};
+			return 'STRETCH';
 		}
 	} else {
-		// - else if childSide is within 15% of ParentSide
-
 		const edgeTolerance = 0.15;
-		const stickLeft = childLine.start < parentLength * edgeTolerance;
-		const stickRight = childLine.end > parentLength * (1 - edgeTolerance);
+		const pinLeft = childLine.start < parentLength * edgeTolerance;
+		const pinRight = childLine.end > parentLength * (1 - edgeTolerance);
 
-		//   - then fix side
-		if (stickLeft && stickRight) {
-			child.constraints = {
-				horizontal: 'STRETCH',
-				vertical: child.constraints.vertical,
-			};
-		} else if (stickLeft) {
-			child.constraints = {
-				horizontal: 'MIN',
-				vertical: child.constraints.vertical,
-			};
-		} else if (stickRight) {
-			child.constraints = {
-				horizontal: 'MAX',
-				vertical: child.constraints.vertical,
-			};
+		if (pinLeft && pinRight) {
+			return 'STRETCH';
+		} else if (pinLeft) {
+			return 'MIN';
+		} else if (pinRight) {
+			return 'MAX';
 		} else {
-			//   - else center side
-			child.constraints = {
-				horizontal: 'CENTER',
-				vertical: child.constraints.vertical,
-			};
+			return 'CENTER';
 		}
 	}
-};
+}
 
 figma.ui.onmessage = (message: Message) => {
 	if (message.type === 'autoConstrainSelf') autoConstrainSelf();
