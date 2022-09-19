@@ -6,8 +6,8 @@ Apply constraints layout automatically based on child placement within parent fr
 ## Commands
 - AutoConstrain All Children
 - Frame and AutoConstrain Children
-- AutoConstrain Self
-- Run Plugin window to AutoConstrain Self onSelectionChange if move or resized
+- AutoConstrain Selection
+- Watch Mode: PluginUI to AutoConstrain Selection onSelectionChange
 
 ## Pseudo code
 - if child centered in parent

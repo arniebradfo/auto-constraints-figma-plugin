@@ -2,7 +2,7 @@ export type FigmaPluginMessage<T extends Message = AnyMessage> = { pluginId?: st
 
 export type FigmaPluginMessageEvent<T extends Message = AnyMessage> = MessageEvent<FigmaPluginMessage<T>>;
 
-export type MessageType = 'autoConstrainSelf';
+export type MessageType = 'constrainSelection';
 
 export interface Message {
 	type: MessageType;
@@ -13,6 +13,6 @@ export interface AnyMessage extends Message {
 }
 
 export interface AutoConstrainSelfMessage extends Message {
-	type: 'autoConstrainSelf';
+	type: 'constrainSelection';
 	// value: string;
 }

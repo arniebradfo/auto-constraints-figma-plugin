@@ -1,8 +1,6 @@
 import { Message } from '../messages';
 
-figma.showUI(__html__);
-
-const autoConstrainSelf = () => {
+const autoConstrainSelection = () => {
 	// console.log(figma.currentPage.selection);
 
 	// TODO: figma.currentPage.selection.forEach(child=>{});
@@ -41,7 +39,7 @@ const autoConstrainSelf = () => {
 		end: parentSides.right,
 	};
 
-    const horizontal = autoConstraint(childHorizontal, parentHorizontal);
+	const horizontal = autoConstraint(childHorizontal, parentHorizontal);
 	const vertical = autoConstraint(childVertical, parentVertical);
 	child.constraints = {
 		horizontal,
@@ -77,7 +75,7 @@ function autoConstraint(childLine: Line, parentLine: Line): ConstraintType {
 }
 
 figma.ui.onmessage = (message: Message) => {
-	if (message.type === 'autoConstrainSelf') autoConstrainSelf();
+	if (message.type === 'constrainSelection') autoConstrainSelection();
 
 	// if (message.type === 'create-rectangles') {
 	//     const nodes = [];
@@ -174,3 +172,17 @@ type GeometryNode =
 	| PolygonNode
 	| RectangleNode
 	| TextNode;
+
+figma.on('run', (event) => {
+	if (event.command === 'watchMode') {
+		figma.showUI(__html__);
+	} else {
+		if (event.command === 'constrainSelection') {
+			autoConstrainSelection();
+		}
+		if (event.command === 'constrainChildren') console.log('constrainChildren');
+		if (event.command === 'frameAndConstrainChildren') console.log('frameAndConstrainChildren');
+
+		figma.closePlugin();
+	}
+});

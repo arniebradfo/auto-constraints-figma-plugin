@@ -31,14 +31,14 @@ const App = ({}) => {
 
 	const autoConstrainSelf = React.useCallback(() => {
 		const message: FigmaPluginMessage<AutoConstrainSelfMessage> = {
-			pluginMessage: { type: 'autoConstrainSelf' },
+			pluginMessage: { type: 'constrainSelection' },
 		};
 		parent.postMessage(message, '*');
 	}, []);
 
 	return (
 		<div>
-			<button onClick={autoConstrainSelf} children="Auto Constrain Self" />
+			<button onClick={autoConstrainSelf} children="Auto Constrain Selection" />
 		</div>
 	);
 };

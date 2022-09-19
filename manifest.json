@@ -4,5 +4,23 @@
 	"api": "1.0.0",
 	"main": "dist/code.js",
 	"ui": "dist/ui.html",
-	"editorType": ["figma"]
+	"editorType": ["figma"],
+	"menu":[
+		{
+			"name":"Selection",
+			"command": "constrainSelection"
+		},
+		{
+			"name":"Children",
+			"command": "constrainChildren"
+		},
+		{
+			"name":"Frame Selection",
+			"command": "frameAndConstrainChildren"
+		},
+		{
+			"name":"Watch Mode",
+			"command": "watchMode"
+		}
+	]
 }
