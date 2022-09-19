@@ -8,13 +8,44 @@ export function autoConstrainSelectionChildren() {
 	});
 }
 
+export function autoConstrainSelectionDescendants() {
+	console.warn('autoConstrainSelectionDescendants not implemented yet');
+}
+
 export function frameAndAutoConstrainSelectionChildren() {
-	console.log('frameAndConstrainChildren');
+	// new frame insertion point should be at the first selected node
+	const { selection } = figma.currentPage;
+	const insertionNode = selection[0].parent;
+	
+	// TODO: get correct insertionIndex
+	const insertionIndex = 0; // getIndexInParent(selection[0])
+	const groupNode = figma.group(selection, insertionNode, insertionIndex);
+
+	const frameNode = figma.createFrame();
+	insertionNode.insertChild(insertionIndex, frameNode);
+
+	// copy groupNode dimensions
+	frameNode.x = groupNode.x;
+	frameNode.y = groupNode.y;
+	frameNode.resize(groupNode.width, groupNode.height);
+
+	// offset each child by the groupNode x y, or it gets double offset
+	// TODO: consider rotation and transforms
+	const offsetX = groupNode.x;
+	const offsetY = groupNode.y;
+
+	groupNode.children.forEach((child) => {
+		child.x = child.x - offsetX;
+		child.y = child.y - offsetY;
+		frameNode.insertChild(0, child);
+	});
+
+	// groupNode removes itself when it has no children
+
+	frameNode.children.forEach((childNode) => autoConstraints(childNode));
 }
 
 const autoConstraints = (node: SceneNode) => {
-	console.log(figma.currentPage.selection);
-
 	const child = node;
 	const parent = child.parent;
 
@@ -22,8 +53,6 @@ const autoConstraints = (node: SceneNode) => {
 	// if parent.type === 'GROUP', get parent recursively - ignore for now
 
 	if (!('constraints' in child && 'absoluteBoundingBox' in child && 'absoluteBoundingBox' in parent)) return;
-
-	console.log({ parent, child });
 
 	const childSides = getSides(child.absoluteBoundingBox, parent.absoluteBoundingBox);
 	const parentSides: Sides = {
@@ -100,7 +129,6 @@ interface Line {
 function isCentered(line1: Line, line2: Line): boolean {
 	const marginStart = line2.start - line1.start;
 	const marginEnd = line1.end - line2.end;
-	console.log({ marginEnd, marginStart, line1, line2 });
 	// provide a pixel of leniency for centered odd widths and fractional widths
 	return marginStart >= marginEnd - 1 && marginStart <= marginEnd + 1;
 }
@@ -119,3 +147,7 @@ function getSides(rect: Rect, parentRect: Rect = defaultRect): Sides {
 }
 
 const defaultRect: Rect = { x: 0, y: 0, height: 0, width: 0 };
+
+function getIndexInParent(node: SceneNode) {
+	return [...node.parent.children].reverse().findIndex((child) => node.id === child.id);
+}

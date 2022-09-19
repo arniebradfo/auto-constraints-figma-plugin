@@ -2,15 +2,18 @@ import { Message } from '../messages';
 import {
 	autoConstrainSelection,
 	autoConstrainSelectionChildren,
+	autoConstrainSelectionDescendants,
 	frameAndAutoConstrainSelectionChildren,
 } from './auto-constraints';
 
 figma.on('run', (event) => {
+	console.log(figma.currentPage.selection);
 	if (event.command === 'watchMode') {
 		figma.showUI(__html__);
 	} else {
 		if (event.command === 'constrainSelection') autoConstrainSelection();
 		if (event.command === 'constrainChildren') autoConstrainSelectionChildren();
+		if (event.command === 'constrainDescendants') autoConstrainSelectionDescendants();
 		if (event.command === 'frameAndConstrainChildren') frameAndAutoConstrainSelectionChildren();
 		figma.closePlugin();
 	}

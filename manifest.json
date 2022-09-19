@@ -5,21 +5,25 @@
 	"main": "dist/code.js",
 	"ui": "dist/ui.html",
 	"editorType": ["figma"],
-	"menu":[
+	"menu": [
 		{
-			"name":"Selection",
+			"name": "Selection",
 			"command": "constrainSelection"
 		},
 		{
-			"name":"Children",
+			"name": "Children",
 			"command": "constrainChildren"
 		},
 		{
-			"name":"Frame Selection",
+			"name": "Descendants Recursively",
+			"command": "constrainChildren"
+		},
+		{
+			"name": "Frame Selection",
 			"command": "frameAndConstrainChildren"
 		},
 		{
-			"name":"Watch Mode",
+			"name": "Watch Mode",
 			"command": "watchMode"
 		}
 	]
