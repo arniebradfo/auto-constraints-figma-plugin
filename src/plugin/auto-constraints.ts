@@ -146,30 +146,25 @@ function noStretchAutoLayout(node: SceneNode, direction: BaseFrameMixin['layoutM
 		// if any children resizing = fill, do stretch, else don't
 		return !allowStretchAutoLayoutChildren(children, isPrimaryAxis);
 	} else {
-		// if text baseline alignment is on, don't stretch
-		if (counterAxisAlignItems === 'BASELINE') return true;
-
 		// if resizing = hug, don't stretch
 		if (counterAxisSizingMode === 'AUTO') return true;
+
+		// TODO: does this condition make sense?
+		// if text baseline alignment is on, don't stretch
+		// if (counterAxisAlignItems === 'BASELINE') return true;
 
 		// if any children resizing = fill, do stretch, else don't
 		return !allowStretchAutoLayoutChildren(children, isPrimaryAxis);
 	}
 }
-function allowStretchAutoLayoutChildren(children: readonly SceneNode[], isPrimaryAxis:boolean): boolean {
+function allowStretchAutoLayoutChildren(children: readonly SceneNode[], isPrimaryAxis: boolean): boolean {
 	console.log({ children });
 	return (
 		undefined !==
 		children.find((node) => {
 			if (!('layoutPositioning' in node)) return false;
 
-			const {
-				visible,
-				name,
-				layoutPositioning,
-				layoutAlign,
-				layoutGrow,
-			} = node;
+			const { visible, name, layoutPositioning, layoutAlign, layoutGrow } = node;
 			console.log({
 				node,
 				isPrimaryAxis,
@@ -181,15 +176,15 @@ function allowStretchAutoLayoutChildren(children: readonly SceneNode[], isPrimar
 			});
 
 			// if node is absolutely positioned, ignore it
-			if (node.layoutPositioning === 'ABSOLUTE') return false
+			if (node.layoutPositioning === 'ABSOLUTE') return false;
 
 			// if node is hidden, ignore it
 			if (!visible) return false;
 
 			if (isPrimaryAxis) {
-				return layoutGrow > 0
+				return layoutGrow > 0;
 			} else {
-				return layoutAlign === 'STRETCH'
+				return layoutAlign === 'STRETCH';
 			}
 		})
 	);
