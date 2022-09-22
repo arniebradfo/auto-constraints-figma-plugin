@@ -86,26 +86,26 @@ const autoConstraints = (node: SceneNode) => {
 	// 'STRETCH' seems pretty dangerous actually...
 
 	// don't apply 'STRETCH' to any object with constrained proportions
-	const noStretchAny = child.constrainProportions;
+	const dontStretchAny = child.constrainProportions;
 
 	// don't apply 'STRETCH' to auto layouts that hug, or have no children that fill
-	const noStretchAutoLayoutHorizontal = noStretchAutoLayout(node, 'HORIZONTAL');
-	const noStretchAutoLayoutVertical = noStretchAutoLayout(node, 'VERTICAL');
+	const dontStretchAutoLayoutHorizontal = dontStretchAutoLayout(node, 'HORIZONTAL');
+	const dontStretchAutoLayoutVertical = dontStretchAutoLayout(node, 'VERTICAL');
 
 	// don't apply 'STRETCH' to text dynamic text sizing settings
-	const noStretchTextHorizontal = 'textAutoResize' in child && child.textAutoResize === 'WIDTH_AND_HEIGHT';
-	const noStretchTextVertical =
+	const dontStretchTextHorizontal = 'textAutoResize' in child && child.textAutoResize === 'WIDTH_AND_HEIGHT';
+	const dontStretchTextVertical =
 		'textAutoResize' in child && (child.textAutoResize === 'WIDTH_AND_HEIGHT' || child.textAutoResize === 'HEIGHT');
 
 	const horizontal = autoConstraint(
 		childHorizontal,
 		parentHorizontal,
-		noStretchAny || noStretchTextHorizontal || noStretchAutoLayoutHorizontal
+		dontStretchAny || dontStretchTextHorizontal || dontStretchAutoLayoutHorizontal
 	);
 	const vertical = autoConstraint(
 		childVertical,
 		parentVertical,
-		noStretchAny || noStretchTextVertical || noStretchAutoLayoutVertical
+		dontStretchAny || dontStretchTextVertical || dontStretchAutoLayoutVertical
 	);
 
 	child.constraints = {
@@ -114,7 +114,7 @@ const autoConstraints = (node: SceneNode) => {
 	};
 };
 
-function noStretchAutoLayout(node: SceneNode, direction: BaseFrameMixin['layoutMode']): boolean {
+function dontStretchAutoLayout(node: SceneNode, direction: BaseFrameMixin['layoutMode']): boolean {
 	if (!('layoutMode' in node)) return false;
 	const {
 		layoutMode,
@@ -126,16 +126,7 @@ function noStretchAutoLayout(node: SceneNode, direction: BaseFrameMixin['layoutM
 	} = node;
 	if (layoutMode == 'NONE') return false;
 	const isPrimaryAxis = direction === layoutMode;
-	// console.log({ node });
-	// console.log({
-	// 	direction,
-	// 	layoutMode,
-	// 	counterAxisSizingMode,
-	// 	primaryAxisSizingMode,
-	// 	primaryAxisAlignItems,
-	// 	isPrimaryAxis,
-	// 	children,
-	// });
+
 	if (isPrimaryAxis) {
 		// if spacing mode = space between, do stretch
 		if (primaryAxisAlignItems === 'SPACE_BETWEEN') return false;
@@ -144,58 +135,46 @@ function noStretchAutoLayout(node: SceneNode, direction: BaseFrameMixin['layoutM
 		if (primaryAxisSizingMode === 'AUTO') return true;
 
 		// if any children resizing = fill, do stretch, else don't
-		return !allowStretchAutoLayoutChildren(children, isPrimaryAxis);
+		return !dontStretchAutoLayoutChildren(children, isPrimaryAxis);
 	} else {
 		// if resizing = hug, don't stretch
 		if (counterAxisSizingMode === 'AUTO') return true;
 
-		// TODO: does this condition make sense?
 		// if text baseline alignment is on, don't stretch
-		// if (counterAxisAlignItems === 'BASELINE') return true;
+		if (counterAxisAlignItems === 'BASELINE') return true;
 
 		// if any children resizing = fill, do stretch, else don't
-		return !allowStretchAutoLayoutChildren(children, isPrimaryAxis);
+		return dontStretchAutoLayoutChildren(children, isPrimaryAxis);
 	}
 }
-function allowStretchAutoLayoutChildren(children: readonly SceneNode[], isPrimaryAxis: boolean): boolean {
-	console.log({ children });
-	return (
-		undefined !==
-		children.find((node) => {
-			if (!('layoutPositioning' in node)) return false;
+function dontStretchAutoLayoutChildren(children: readonly SceneNode[], isPrimaryAxis: boolean): boolean {
+	return !children.find((node) => {
+		if (!('layoutPositioning' in node)) return false;
 
-			const { visible, name, layoutPositioning, layoutAlign, layoutGrow } = node;
-			console.log({
-				node,
-				isPrimaryAxis,
-				visible,
-				name,
-				layoutPositioning,
-				layoutAlign,
-				layoutGrow,
-			});
+		const { visible, layoutPositioning, layoutAlign, layoutGrow } = node;
 
-			// if node is absolutely positioned, ignore it
-			if (node.layoutPositioning === 'ABSOLUTE') return false;
+		// if node is absolutely positioned, ignore it
+		if (layoutPositioning === 'ABSOLUTE') return false;
 
-			// if node is hidden, ignore it
-			if (!visible) return false;
+		// if node is hidden, ignore it
+		if (!visible) return false;
 
-			if (isPrimaryAxis) {
-				return layoutGrow > 0;
-			} else {
-				return layoutAlign === 'STRETCH';
-			}
-		})
-	);
+		if (isPrimaryAxis) {
+			// if resizing = fill, allow stretch
+			return layoutGrow > 0;
+		} else {
+			// if resizing = fill, allow stretch
+			return layoutAlign === 'STRETCH';
+		}
+	});
 }
 
-function autoConstraint(childLine: Line, parentLine: Line, noStretch: boolean = false): ConstraintType {
+function autoConstraint(childLine: Line, parentLine: Line, dontStretch: boolean = false): ConstraintType {
 	const parentLength = parentLine.end - parentLine.start;
 	const childLength = childLine.end - childLine.start;
 
 	if (isCentered(childLine, parentLine)) {
-		if (noStretch || childLength < parentLength * 0.5) {
+		if (dontStretch || childLength < parentLength * 0.5) {
 			return 'CENTER';
 		} else {
 			return 'STRETCH';
@@ -206,7 +185,7 @@ function autoConstraint(childLine: Line, parentLine: Line, noStretch: boolean = 
 		const pinRight = childLine.end > parentLength * (1 - edgeTolerance);
 
 		if (pinLeft && pinRight) {
-			return noStretch ? 'CENTER' : 'STRETCH';
+			return dontStretch ? 'CENTER' : 'STRETCH';
 		} else if (pinLeft) {
 			return 'MIN';
 		} else if (pinRight) {
