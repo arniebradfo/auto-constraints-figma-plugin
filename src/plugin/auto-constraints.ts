@@ -15,14 +15,14 @@ export function autoConstrainSelectionDescendants() {
 export function frameAndAutoConstrainSelectionChildren() {
 	// new frame insertion point should be at the first selected node
 	const { selection } = figma.currentPage;
-	const insertionNode = selection[0].parent;
+	const { parent } = selection[0];
 
-	// TODO: get correct insertionIndex
-	const insertionIndex = 0; // getIndexInParent(selection[0])
-	const groupNode = figma.group(selection, insertionNode, insertionIndex);
+	const groupInsertionIndex = getIndexInParent(selection[selection.length - 1]);
+	const groupNode = figma.group(selection, parent, groupInsertionIndex);
 
 	const frameNode = figma.createFrame();
-	insertionNode.insertChild(insertionIndex, frameNode);
+	const frameInsertionIndex = getIndexInParent(groupNode);
+	parent.insertChild(frameInsertionIndex, frameNode);
 
 	// copy groupNode dimensions
 	frameNode.x = groupNode.x;
@@ -30,13 +30,14 @@ export function frameAndAutoConstrainSelectionChildren() {
 	frameNode.resize(groupNode.width, groupNode.height);
 	frameNode.fills = [];
 	frameNode.clipsContent = false;
+	frameNode.name = 'Auto Constraints Frame'; // TODO: +index
 
 	// offset each child by the groupNode x y, or it gets double offset
 	// TODO: consider rotation and transforms // maybe don't need to?
 	const offsetX = groupNode.x;
 	const offsetY = groupNode.y;
 
-	groupNode.children.forEach((child) => {
+	[...groupNode.children].reverse().forEach((child) => {
 		child.x = child.x - offsetX;
 		child.y = child.y - offsetY;
 		frameNode.insertChild(0, child);
@@ -46,6 +47,8 @@ export function frameAndAutoConstrainSelectionChildren() {
 	// groupNode.remove()
 
 	frameNode.children.forEach((childNode) => autoConstraints(childNode));
+
+	figma.currentPage.selection = [frameNode];
 }
 
 const autoConstraints = (node: SceneNode) => {
@@ -230,6 +233,6 @@ function getSides(rect: Rect, parentRect: Rect = defaultRect): Sides {
 
 const defaultRect: Rect = { x: 0, y: 0, height: 0, width: 0 };
 
-// function getIndexInParent(node: SceneNode) {
-// 	return [...node.parent.children].reverse().findIndex((child) => node.id === child.id);
-// }
+function getIndexInParent(node: SceneNode) {
+	return node.parent.children.findIndex((child) => node.id === child.id);
+}
