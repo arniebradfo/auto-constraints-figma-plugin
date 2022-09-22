@@ -2,7 +2,7 @@ export type FigmaPluginMessage<T extends Message = AnyMessage> = { pluginId?: st
 
 export type FigmaPluginMessageEvent<T extends Message = AnyMessage> = MessageEvent<FigmaPluginMessage<T>>;
 
-export type MessageType = 'constrainSelection' | 'constrainChildren' | 'frameAndConstrainChildren' | 'watchMode';
+export type MessageType = 'constrainSelection' | 'constrainChildren' | 'frameAndConstrainSelection' | 'watchMode' | 'constrainDescendants';
 
 export interface Message {
 	type: MessageType;

@@ -21,8 +21,9 @@ figma.on('run', (event) => {
 
 figma.ui.onmessage = (message: Message) => {
 	if (message.type === 'constrainSelection') autoConstrainSelection();
-	if (message.type === 'constrainChildren') autoConstrainSelection();
-	if (message.type === 'frameAndConstrainChildren') autoConstrainSelection();
+	if (message.type === 'constrainChildren') autoConstrainSelectionChildren();
+	if (message.type === 'constrainDescendants') autoConstrainSelectionDescendants();
+	if (message.type === 'frameAndConstrainSelection') frameAndAutoConstrainSelectionChildren();
 
 	// if (message.type === 'create-rectangles') {
 	//     const nodes = [];

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { AutoConstrainSelfMessage, FigmaPluginMessage } from '../../messages';
+import { AutoConstrainSelfMessage, FigmaPluginMessage, Message, MessageType } from '../../messages';
 // import '../styles/ui.css';
 
 const App = ({}) => {
@@ -29,16 +29,19 @@ const App = ({}) => {
 	//     };
 	// }, []);
 
-	const autoConstrainSelf = React.useCallback(() => {
-		const message: FigmaPluginMessage<AutoConstrainSelfMessage> = {
-			pluginMessage: { type: 'constrainSelection' },
+	const autoConstrainSelf = React.useCallback((type: MessageType) => {
+		const message: FigmaPluginMessage<Message> = {
+			pluginMessage: { type },
 		};
 		parent.postMessage(message, '*');
 	}, []);
 
 	return (
 		<div>
-			<button onClick={autoConstrainSelf} children="Auto Constrain Selection" />
+			<button onClick={()=>autoConstrainSelf('constrainSelection')} children="Auto Constrain Selection" />
+			<button onClick={()=>autoConstrainSelf('constrainChildren')} children="Auto Constrain Children" />
+			<button onClick={()=>autoConstrainSelf('constrainDescendants')} children="Auto Constrain Descendants" />
+			<button onClick={()=>autoConstrainSelf('frameAndConstrainSelection')} children="Frame And Constrain Selection" />
 		</div>
 	);
 };
