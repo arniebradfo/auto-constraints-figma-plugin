@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { AutoConstrainSelfMessage, FigmaPluginMessage, Message, MessageType } from '../../messages';
+import { FigmaPluginMessage, Message, MessageType } from '../../messages';
 // import '../styles/ui.css';
 
 const App = ({}) => {
