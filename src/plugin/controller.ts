@@ -1,31 +1,45 @@
-import { Message } from '../messages';
+import { CommandType, Message } from '../messages';
 import {
 	autoConstrainSelection,
 	autoConstrainSelectionChildren,
 	autoConstrainSelectionDescendants,
-	frameAndAutoConstrainSelectionChildren,
+	frameAndAutoConstrainSelection,
+	ignoreSelection,
 } from './auto-constraints';
 
 figma.on('run', (event) => {
-	if (event.command === 'watchMode') {
+	const command = event.command as CommandType
+	if (command === 'watchMode') {
 		figma.showUI(__html__);
 	} else if (figma.currentPage.selection.length === 0) {
 		figma.notify('Make a Selection to Auto Constrain');
 		figma.closePlugin();
 	} else {
-		if (event.command === 'constrainSelection') autoConstrainSelection();
-		if (event.command === 'constrainChildren') autoConstrainSelectionChildren();
-		if (event.command === 'constrainDescendants') autoConstrainSelectionDescendants();
-		if (event.command === 'frameAndConstrainChildren') frameAndAutoConstrainSelectionChildren();
+		if (command === 'constrainSelection') autoConstrainSelection();
+		if (command === 'constrainChildren') autoConstrainSelectionChildren();
+		if (command === 'constrainDescendants') autoConstrainSelectionDescendants();
+		if (command === 'frameAndConstrainSelection') frameAndAutoConstrainSelection(); // ctrl opt F
+		// if (command === 'unGroupAndConstrainChildren') unGroupAndAutoConstrainSelectionChildren(); // ctrl shift F
+		if (command === 'ignoreSelection') ignoreSelection(); // ctrl shift F
 		figma.closePlugin();
 	}
 });
 
+figma.on('selectionchange', () => {
+	figma.ui.postMessage({
+		type: 'selectionChange' as CommandType
+	});
+	// saveSelection(); // for use next autoConstrainPreviousSelection();
+	// autoConstrainSelection();
+	// autoConstrainPreviousSelection();
+})
+
 figma.ui.onmessage = (message: Message) => {
-	if (message.type === 'constrainSelection') autoConstrainSelection();
-	if (message.type === 'constrainChildren') autoConstrainSelectionChildren();
-	if (message.type === 'constrainDescendants') autoConstrainSelectionDescendants();
-	if (message.type === 'frameAndConstrainSelection') frameAndAutoConstrainSelectionChildren();
+	const type = message.type as CommandType
+	if (type === 'constrainSelection') autoConstrainSelection();
+	if (type === 'constrainChildren') autoConstrainSelectionChildren();
+	if (type === 'constrainDescendants') autoConstrainSelectionDescendants();
+	if (type === 'frameAndConstrainSelection') frameAndAutoConstrainSelection();
 
 	// if (message.type === 'create-rectangles') {
 	//     const nodes = [];

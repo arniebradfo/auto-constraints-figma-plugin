@@ -20,11 +20,22 @@
 		},
 		{
 			"name": "Frame Selection",
-			"command": "frameAndConstrainChildren"
+			"command": "frameAndConstrainSelection"
 		},
 		{
 			"name": "Watch Mode",
 			"command": "watchMode"
+		},
+		{
+			"name": "Ignore Selection",
+			"command": "ignoreSelection"
+		}
+	],
+	"relaunchButtons": [
+		{
+			"name": "Ignored by Auto Constraints",
+			"command": "ignoreSelection",
+			"multipleSelection": true
 		}
 	]
 }

@@ -12,7 +12,16 @@ export function autoConstrainSelectionDescendants() {
 	console.warn('autoConstrainSelectionDescendants not implemented yet');
 }
 
-export function frameAndAutoConstrainSelectionChildren() {
+export function ignoreSelection() {
+	figma.currentPage.selection.forEach((node) => {
+		node.setRelaunchData({ ignoreSelection: '' });
+	});
+}
+function isNodeIgnored(node: SceneNode) {
+	return node.getRelaunchData().ignoreSelection != null;
+}
+
+export function frameAndAutoConstrainSelection() {
 	// new frame insertion point should be at the first selected node
 	const { selection } = figma.currentPage;
 	const { parent } = selection[0];
@@ -33,7 +42,6 @@ export function frameAndAutoConstrainSelectionChildren() {
 	frameNode.name = 'Auto Constraints Frame'; // TODO: +index
 
 	// offset each child by the groupNode x y, or it gets double offset
-	// TODO: consider rotation and transforms // maybe don't need to?
 	const offsetX = groupNode.x;
 	const offsetY = groupNode.y;
 
@@ -52,6 +60,12 @@ export function frameAndAutoConstrainSelectionChildren() {
 }
 
 const autoConstraints = (node: SceneNode) => {
+	if (isNodeIgnored(node)) {
+		figma.notify(`Node Ignored by Auto Constraints: ${node.name}`);
+		// TODO: button to select? // message if there is more than one?
+		return;
+	}
+
 	const child = node;
 	const parent = child.parent;
 
@@ -115,6 +129,7 @@ const autoConstraints = (node: SceneNode) => {
 		horizontal,
 		vertical,
 	};
+
 };
 
 function dontStretchAutoLayout(node: SceneNode, direction: BaseFrameMixin['layoutMode']): boolean {

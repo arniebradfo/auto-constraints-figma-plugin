@@ -4,17 +4,11 @@ Apply constraints layout automatically based on child placement within parent fr
 (Currently in Development)
 
 ## Commands
-- AutoConstrain All Children
-- Frame and AutoConstrain Children
 - AutoConstrain Selection
+- AutoConstrain All Children
+- Frame and AutoConstrain Selection
+- UnGroup and AutoConstrain Children
 - Watch Mode: PluginUI to AutoConstrain Selection onSelectionChange
+  - Manual setting for nodes: option to ignore selected nodes in watch mode
 
-## Pseudo code
-- if child centered in parent
-  - if childWidth is less than 50% of parentWidth
-    - then center
-    - else fix both sides
-- else if childSide is within 15% of ParentSide
-  - then fix side
-  - else center side
 
