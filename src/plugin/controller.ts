@@ -7,9 +7,11 @@ import {
 } from './auto-constraints';
 
 figma.on('run', (event) => {
-	console.log(figma.currentPage.selection);
 	if (event.command === 'watchMode') {
 		figma.showUI(__html__);
+	} else if (figma.currentPage.selection.length === 0) {
+		figma.notify('Make a Selection to Auto Constrain');
+		figma.closePlugin();
 	} else {
 		if (event.command === 'constrainSelection') autoConstrainSelection();
 		if (event.command === 'constrainChildren') autoConstrainSelectionChildren();
