@@ -1,24 +1,21 @@
-import { CommandType, Message } from '../messages';
+import { CommandType } from '../messages';
 import {
-	addRelaunchData,
 	autoConstrainSelection,
 	autoConstrainSelectionChildren,
 	autoConstrainSelectionDescendants,
 	frameAndAutoConstrainSelection,
-	ignoreSelection,
-	includeSelection,
 	unGroupAndAutoConstrainSelection,
-} from './auto-constraints';
+} from './auto-constrain-selections';
+import { ignoreSelection, includeSelection, watchMode } from './watch-mode';
 
-let watchMode = false;
 figma.on('run', (event) => {
 	const command = event.command as CommandType;
 	if (command === 'watchMode') {
-		figma.showUI(__html__);
-		watchMode = true;
+		figma.showUI(__html__, uiWindowOptions);
+		watchMode();
 	} else if (figma.currentPage.selection.length === 0) {
 		figma.notify('Make a Selection to Auto Constrain');
-		if (!watchMode) figma.closePlugin();
+		figma.closePlugin();
 	} else {
 		if (command === 'constrainSelection') autoConstrainSelection();
 		if (command === 'constrainChildren') autoConstrainSelectionChildren();
@@ -27,23 +24,14 @@ figma.on('run', (event) => {
 		if (command === 'unGroupAndConstrainSelection') unGroupAndAutoConstrainSelection(); // ctrl shift F
 		if (command === 'includeSelection') includeSelection();
 		if (command === 'ignoreSelection') ignoreSelection();
-		if (!watchMode) figma.closePlugin();
+		figma.closePlugin();
 	}
 });
 
-let previousSelection: SceneNode[] = [];
-figma.on('selectionchange', () => {
-	figma.ui.postMessage({
-		type: 'selectionChange' as CommandType,
-	});
-	addRelaunchData();
-	const currentSelection = [...figma.currentPage.selection];
-	autoConstrainSelection(previousSelection);
-	autoConstrainSelection(currentSelection);
-	// console.log({ previousSelection, currentSelection });
-	previousSelection = currentSelection;
-});
+// if UI is running, figma.closePlugin(); has not been called and we are in watchMode.
+figma.on('selectionchange', watchMode);
 
+/* 
 figma.ui.onmessage = (message: Message) => {
 	const type = message.type as CommandType;
 	if (type === 'constrainSelection') autoConstrainSelection();
@@ -51,28 +39,17 @@ figma.ui.onmessage = (message: Message) => {
 	if (type === 'constrainDescendants') autoConstrainSelectionDescendants();
 	if (type === 'frameAndConstrainSelection') frameAndAutoConstrainSelection();
 
-	// if (message.type === 'create-rectangles') {
-	//     const nodes = [];
+	// // This is how figma responds back to the ui
+	// figma.ui.postMessage({
+	// 	type: 'create-rectangles',
+	// 	message: `Created ${message.count} Rectangles`,
+	// });
+};
+ */
 
-	//     for (let i = 0; i < message.count; i++) {
-	//         const rect = figma.createRectangle();
-	//         rect.x = i * 150;
-	//         rect.fills = [{type: 'SOLID', color: {r: 1, g: 0.5, b: 0}}];
-	//         figma.currentPage.appendChild(rect);
-	//         nodes.push(rect);
-	//     }
-
-	//     figma.currentPage.selection = nodes;
-	//     figma.viewport.scrollAndZoomIntoView(nodes);
-
-	//     // This is how figma responds back to the ui
-	//     figma.ui.postMessage({
-	//         type: 'create-rectangles',
-	//         message: `Created ${message.count} Rectangles`,
-	//     });
-	// }
-
-	// figma.closePlugin();
-
-	// console.log(figma.selection);
+const uiWindowOptions: ShowUIOptions = {
+	title: 'Auto Constraints Watch Mode is Running...',
+	themeColors: true,
+	height: 0, // lol
+	width: 320,
 };
