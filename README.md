@@ -9,6 +9,5 @@ Apply constraints layout automatically based on child placement within parent fr
 - UnGroup and AutoConstrain Children
 
 - Watch Mode: PluginUI to AutoConstrain Selection onSelectionChange
-  - Manual setting for nodes: option to ignore selected nodes in watch mode
-
+  - Manual toggle setting for nodes: option to ignore selected nodes in watch mode
 

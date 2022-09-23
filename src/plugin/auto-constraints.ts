@@ -1,5 +1,6 @@
-export function autoConstrainSelection() {
-	figma.currentPage.selection.forEach((node) => autoConstraints(node));
+export function autoConstrainSelection(selection?: SceneNode[]) {
+	selection = selection || (figma.currentPage.selection as SceneNode[]);
+	selection.forEach((node) => autoConstraints(node));
 }
 
 export function autoConstrainSelectionChildren() {
@@ -12,9 +13,20 @@ export function autoConstrainSelectionDescendants() {
 	console.warn('autoConstrainSelectionDescendants not implemented yet');
 }
 
-export function ignoreSelection() {
+export function addRelaunchData() {
+	figma.currentPage.selection.forEach((node) => {
+		const { ignoreSelection, includeSelection } = node.getRelaunchData();
+		if (ignoreSelection == null && includeSelection == null) node.setRelaunchData({ includeSelection: '' });
+	});
+}
+export function includeSelection() {
 	figma.currentPage.selection.forEach((node) => {
 		node.setRelaunchData({ ignoreSelection: '' });
+	});
+}
+export function ignoreSelection() {
+	figma.currentPage.selection.forEach((node) => {
+		node.setRelaunchData({ includeSelection: '' });
 	});
 }
 function isNodeIgnored(node: SceneNode) {
@@ -60,12 +72,12 @@ export function frameAndAutoConstrainSelection() {
 }
 
 export function unGroupAndAutoConstrainSelection() {
-	figma.currentPage.selection.forEach(node => {
+	figma.currentPage.selection.forEach((node) => {
 		if (node.type === 'GROUP' || node.type === 'FRAME') {
-			const children = figma.ungroup(node)
+			const children = figma.ungroup(node);
 			children.forEach((childNode) => autoConstraints(childNode));
 		}
-	})
+	});
 }
 
 const autoConstraints = (node: SceneNode) => {
@@ -140,7 +152,6 @@ const autoConstraints = (node: SceneNode) => {
 		horizontal,
 		vertical,
 	};
-
 };
 
 function dontStretchAutoLayout(node: SceneNode, direction: BaseFrameMixin['layoutMode']): boolean {

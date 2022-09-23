@@ -9,6 +9,7 @@ export type CommandType =
 	| 'unGroupAndConstrainSelection'
 	| 'watchMode'
 	| 'constrainDescendants'
+	| 'includeSelection'
 	| 'ignoreSelection';
 
 export interface Message {
