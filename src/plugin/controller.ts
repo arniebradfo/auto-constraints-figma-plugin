@@ -5,6 +5,7 @@ import {
 	autoConstrainSelectionDescendants,
 	frameAndAutoConstrainSelection,
 	ignoreSelection,
+	unGroupAndAutoConstrainSelection,
 } from './auto-constraints';
 
 figma.on('run', (event) => {
@@ -19,8 +20,8 @@ figma.on('run', (event) => {
 		if (command === 'constrainChildren') autoConstrainSelectionChildren();
 		if (command === 'constrainDescendants') autoConstrainSelectionDescendants();
 		if (command === 'frameAndConstrainSelection') frameAndAutoConstrainSelection(); // ctrl opt F
-		// if (command === 'unGroupAndConstrainChildren') unGroupAndAutoConstrainSelectionChildren(); // ctrl shift F
-		if (command === 'ignoreSelection') ignoreSelection(); // ctrl shift F
+		if (command === 'unGroupAndConstrainSelection') unGroupAndAutoConstrainSelection(); // ctrl shift F
+		if (command === 'ignoreSelection') ignoreSelection();
 		figma.closePlugin();
 	}
 });

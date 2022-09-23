@@ -11,24 +11,19 @@
 			"command": "constrainSelection"
 		},
 		{
-			"name": "Children",
-			"command": "constrainChildren"
-		},
-		{
-			"name": "Descendants Recursively",
-			"command": "constrainChildren"
-		},
-		{
 			"name": "Frame Selection",
 			"command": "frameAndConstrainSelection"
-		},
-		{
-			"name": "Watch Mode",
-			"command": "watchMode"
+		},		{
+			"name": "Ungroup Selection",
+			"command": "unGroupAndConstrainSelection"
 		},
 		{
 			"name": "Ignore Selection",
 			"command": "ignoreSelection"
+		},
+		{
+			"name": "Watch Mode",
+			"command": "watchMode"
 		}
 	],
 	"relaunchButtons": [

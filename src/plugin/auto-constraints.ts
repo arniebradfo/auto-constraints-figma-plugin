@@ -59,12 +59,23 @@ export function frameAndAutoConstrainSelection() {
 	figma.currentPage.selection = [frameNode];
 }
 
+export function unGroupAndAutoConstrainSelection() {
+	figma.currentPage.selection.forEach(node => {
+		if (node.type === 'GROUP' || node.type === 'FRAME') {
+			const children = figma.ungroup(node)
+			children.forEach((childNode) => autoConstraints(childNode));
+		}
+	})
+}
+
 const autoConstraints = (node: SceneNode) => {
 	if (isNodeIgnored(node)) {
 		figma.notify(`Node Ignored by Auto Constraints: ${node.name}`);
 		// TODO: button to select? // message if there is more than one?
 		return;
 	}
+
+	// if (!node.visible) return; // Maybe?
 
 	const child = node;
 	const parent = child.parent;

@@ -6,6 +6,7 @@ export type CommandType =
 	| 'constrainSelection'
 	| 'constrainChildren'
 	| 'frameAndConstrainSelection'
+	| 'unGroupAndConstrainSelection'
 	| 'watchMode'
 	| 'constrainDescendants'
 	| 'ignoreSelection';
