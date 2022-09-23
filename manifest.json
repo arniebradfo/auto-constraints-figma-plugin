@@ -18,7 +18,7 @@
 			"command": "unGroupAndConstrainSelection"
 		},
 		{
-			"name": "Manually Constrain Selection",
+			"name": "Ignore Selection",
 			"command": "ignoreSelection"
 		},
 		{
@@ -28,12 +28,7 @@
 	],
 	"relaunchButtons": [
 		{
-			"name": "✅ Manual Constraints",
-			"command": "includeSelection",
-			"multipleSelection": true
-		},
-		{
-			"name": "□ Manual Constraints",
+			"name": "Ignored by Auto Constraints",
 			"command": "ignoreSelection",
 			"multipleSelection": true
 		}

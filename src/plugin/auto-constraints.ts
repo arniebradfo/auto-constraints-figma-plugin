@@ -33,6 +33,21 @@ function isNodeIgnored(node: SceneNode) {
 	return node.getRelaunchData().ignoreSelection != null;
 }
 
+/*
+"relaunchButtons": [
+	{
+		"name": "✅ Manual Constraints",
+		"command": "includeSelection",
+		"multipleSelection": true
+	},
+	{
+		"name": "□ Manual Constraints",
+		"command": "ignoreSelection",
+		"multipleSelection": true
+	}
+]
+*/
+
 export function frameAndAutoConstrainSelection() {
 	// new frame insertion point should be at the first selected node
 	const { selection } = figma.currentPage;
