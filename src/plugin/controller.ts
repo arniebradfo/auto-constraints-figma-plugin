@@ -48,8 +48,8 @@ figma.ui.onmessage = (message: Message) => {
  */
 
 const uiWindowOptions: ShowUIOptions = {
-	title: 'Auto Constraints Watch Mode is Running...',
+	title: '(beta) Auto Constraints Watch Mode is Running...',
 	themeColors: true,
 	height: 0, // lol
-	width: 320,
+	width: 340,
 };

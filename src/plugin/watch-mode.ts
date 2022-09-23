@@ -26,7 +26,7 @@ export function includeSelection() {
 }
 export function ignoreSelection() {
 	figma.currentPage.selection.forEach((node) => {
-		node.setRelaunchData({ includeSelection: '' });
+		node.setRelaunchData({ ignoreSelection: '' }); // includeSelection: '' });
 	});
 }
 export function isNodeIgnored(node: SceneNode) {
