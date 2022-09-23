@@ -1,4 +1,4 @@
-import { autoConstraints } from "./auto-constraints";
+import { autoConstraints } from './auto-constraints';
 
 export function autoConstrainSelection(selection?: SceneNode[]) {
 	selection = selection || (figma.currentPage.selection as SceneNode[]);
@@ -44,7 +44,8 @@ export function frameAndAutoConstrainSelection() {
 	frameNode.resize(groupNode.width, groupNode.height);
 	frameNode.fills = [];
 	frameNode.clipsContent = false;
-	frameNode.name = 'Auto Constraints Frame'; // TODO: +index
+	const frameIndex = getCurrentFrameIndex();
+	frameNode.name = `Auto Constraints Frame ${frameIndex}`;
 
 	// offset each child by the groupNode x y, or it gets double offset
 	const offsetX = groupNode.x;
@@ -66,4 +67,13 @@ export function frameAndAutoConstrainSelection() {
 
 function getIndexInParent(node: SceneNode) {
 	return node.parent.children.findIndex((child) => node.id === child.id);
+}
+
+const frameIndexKey = 'frameIndex';
+function getCurrentFrameIndex() {
+	let frameIndex: number = Number.parseInt(figma.currentPage.getPluginData(frameIndexKey));
+	if (isNaN(frameIndex) || !frameIndex) frameIndex = 0;
+	frameIndex++;
+	figma.currentPage.setPluginData(frameIndexKey, frameIndex.toString());
+	return frameIndex;
 }
