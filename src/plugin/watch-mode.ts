@@ -8,7 +8,7 @@ export function watchMode() {
 	});
 	addRelaunchData();
 	const currentSelection = [...figma.currentPage.selection];
-	autoConstrainSelection(previousSelection);
+	autoConstrainSelection(previousSelection.filter((node) => !node.removed));
 	autoConstrainSelection(currentSelection);
 	previousSelection = currentSelection;
 }

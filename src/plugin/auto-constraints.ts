@@ -1,6 +1,6 @@
 import { isNodeIgnored } from './watch-mode';
 
-export const autoConstraints = (node: SceneNode) => {
+export function autoConstraints(node: SceneNode) {
 	if (isNodeIgnored(node)) {
 		figma.notify(`Node Ignored by Auto Constraints: ${node.name}`);
 		// TODO: button to select? // message if there is more than one?
@@ -72,7 +72,7 @@ export const autoConstraints = (node: SceneNode) => {
 		horizontal,
 		vertical,
 	};
-};
+}
 
 function dontStretchAutoLayout(node: SceneNode, direction: BaseFrameMixin['layoutMode']): boolean {
 	if (!('layoutMode' in node)) return false;

@@ -12,13 +12,13 @@ const App = ({}) => {
 	React.useEffect(() => {
 		// This is how we read messages sent from the plugin controller
 		// store the previous selection, change it on deselect
-		window.onmessage = (event) => {
-			const { type } = event.data.pluginMessage;
-			if (type === 'selectionChange') {
+		// window.onmessage = (event) => {
+			// const { type } = event.data.pluginMessage;
+			// if (type === 'selectionChange') {
 				// runCommand('constrainSelection')
-				console.log('selectionChange');
-			}
-		};
+				// console.log('selectionChange');
+			// }
+		// };
 	}, []);
 
 	return (
