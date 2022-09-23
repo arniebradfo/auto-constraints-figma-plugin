@@ -4,10 +4,9 @@ Apply constraints layout automatically based on child placement within parent fr
 (Currently in Development)
 
 ## Commands
-- AutoConstrain Selection
-- Frame and AutoConstrain Selection
-- UnGroup and AutoConstrain Children
-
-- Watch Mode: PluginUI to AutoConstrain Selection onSelectionChange
-  - Manual toggle setting for nodes: option to ignore selected nodes in watch mode
+- Auto Constrain Selection
+- Frame and Auto Constrain Selection
+- UnGroup and Auto Constrain Selection
+- Ignore Node
+- Watch Mode *(beta)*: PluginUI to AutoConstrain Selection onSelectionChange
 
