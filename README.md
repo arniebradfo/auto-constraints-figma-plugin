@@ -1,3 +1,5 @@
+![Auto Constraints Logo](./src/app/assets/Logo.svg)
+
 # Auto Constraints Figma Plugin
 Apply constraints layout automatically based on child placement within parent frame. Similar to how Adobe XD handles constraints in "Responsive Resize: Auto" mode.
 

@@ -1,9 +1,9 @@
 <svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
     <g clip-path="url(#clip0_7_158)">
         <g filter="url(#filter0_i_7_158)">
-            <rect width="120" height="120" rx="16" fill="url(#paint0_radial_7_158)" />
+            <rect width="120" height="120" rx="32" fill="url(#paint0_radial_7_158)" />
         </g>
-        <rect x="2" y="2" width="116" height="116" rx="14" stroke="#444444" stroke-width="4" />
+        <rect x="2" y="2" width="116" height="116" rx="30" stroke="#444444" stroke-width="4" />
         <rect x="30" y="30" width="60" height="60" stroke="white" stroke-width="4" />
         <rect x="96" y="56" width="16" height="8" fill="white" />
         <rect x="56" y="8" width="8" height="16" fill="white" />
