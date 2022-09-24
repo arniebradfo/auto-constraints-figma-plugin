@@ -3,6 +3,8 @@
 # Auto Constraints Figma Plugin
 Apply constraints layout automatically based on child placement within parent frame. Similar to how Adobe XD handles constraints in "Responsive Resize: Auto" mode.
 
+[Install it from Figma Community](https://www.figma.com/community/plugin/1155285435916019216)
+
 
 ## Commands
 - **Auto Constrain Selection**: apply Auto Constraints to the selected object
@@ -14,7 +16,7 @@ Apply constraints layout automatically based on child placement within parent fr
 
 
 ## Set Keyboard Shortcuts on macOS
-Auto Constraint commands mimic native Figma commands for Frame (**⎇⌘G**) and Ungroup (**⎇⌘G**). Setting a keybinding will allow you to replace the native commands with this plugin's version. However, you cannot override native Figma keybindings, only make new ones. My preference is to assign the same patterns to the **F** key instead of **G**.
+Auto Constraint commands mimic native Figma commands for Frame (**⎇⌘G**) and Ungroup (**⇧⌘G**). Setting a keybinding will allow you to replace the native commands with this plugin's version. However, you cannot override native Figma keybindings, only make new ones. My preference is to assign the same patterns to the **F** key instead of **G**.
 - Navigate to: System Preferences > Keyboard > Shortcuts > App Shortcuts > click "+"
 - Select Application: "Figma.app" and set shortcut for plugin commands by pasting in the "Menu Title" in this format: `Plugins->Plugin Name->Plugin Command`
   - Auto Constrain Selection: `Plugins->Auto Constraints->Selection` - **⌘F**
