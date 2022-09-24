@@ -95,7 +95,7 @@ function dontStretchAutoLayout(node: SceneNode, direction: BaseFrameMixin['layou
 		if (primaryAxisSizingMode === 'AUTO') return true;
 
 		// if any children resizing = fill, do stretch, else don't
-		return !dontStretchAutoLayoutChildren(children, isPrimaryAxis);
+		return dontStretchAutoLayoutChildren(children, isPrimaryAxis);
 	} else {
 		// if resizing = hug, don't stretch
 		if (counterAxisSizingMode === 'AUTO') return true;
@@ -141,14 +141,20 @@ function autoConstraint(childLine: Line, parentLine: Line, dontStretch: boolean 
 		}
 	} else {
 		const edgeTolerance = 0.15;
-		const pinLeft = childLine.start < parentLength * edgeTolerance;
-		const pinRight = childLine.end > parentLength * (1 - edgeTolerance);
+		const pinStart = childLine.start < parentLength * edgeTolerance;
+		const pinEnd = childLine.end > parentLength * (1 - edgeTolerance);
 
-		if (pinLeft && pinRight) {
-			return dontStretch ? 'CENTER' : 'STRETCH';
-		} else if (pinLeft) {
+		if (pinStart && pinEnd) {
+			if (!dontStretch) return 'STRETCH';
+			// else if one side is touching parent side, pin to that side
+			const childStartsOutsideParent = childLine.start < 1;
+			const childEndsOutsideParent = childLine.end > parentLength - 1;
+			if (childStartsOutsideParent && !childEndsOutsideParent) return 'MIN';
+			else if (childEndsOutsideParent && !childStartsOutsideParent) return 'MAX';
+			else return 'CENTER';
+		} else if (pinStart) {
 			return 'MIN';
-		} else if (pinRight) {
+		} else if (pinEnd) {
 			return 'MAX';
 		} else {
 			return 'CENTER';
