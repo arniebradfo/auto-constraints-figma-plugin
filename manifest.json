@@ -1,6 +1,6 @@
 {
 	"name": "Auto Constraints",
-	"id": "00000001",
+	"id": "1155285435916019216",
 	"api": "1.0.0",
 	"main": "dist/code.js",
 	"ui": "dist/ui.html",
@@ -13,7 +13,8 @@
 		{
 			"name": "Frame Selection",
 			"command": "frameAndConstrainSelection"
-		},		{
+		},
+		{
 			"name": "Ungroup Selection",
 			"command": "unGroupAndConstrainSelection"
 		},
@@ -22,7 +23,7 @@
 			"command": "ignoreSelection"
 		},
 		{
-			"name": "Watch Mode",
+			"name": "Watch Mode (beta)",
 			"command": "watchMode"
 		}
 	],
