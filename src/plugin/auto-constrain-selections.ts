@@ -37,14 +37,6 @@ export function frameAndAutoConstrainSelection() {
 	const frameNode = figma.createFrame();
 	const frameInsertionIndex = getIndexInParent(groupNode);
 
-	// TODO: doesn't work in AutoLayout frame (layoutMode === 'NONE')
-
-	if ('layoutMode' in parent) {
-		const { layoutAlign, layoutGrids, layoutGrow, layoutMode, layoutPositioning } = parent;
-		const { x, y } = groupNode;
-		console.log({ layoutAlign, layoutGrids, layoutGrow, layoutMode, layoutPositioning, x, y });
-	}
-
 	// copy groupNode dimensions
 	frameNode.x = groupNode.x;
 	frameNode.y = groupNode.y;
@@ -52,7 +44,7 @@ export function frameAndAutoConstrainSelection() {
 	frameNode.fills = [];
 	frameNode.clipsContent = false;
 	const frameIndex = getCurrentFrameIndex();
-	frameNode.name = `Auto Constraints Frame ${frameIndex}`;
+	frameNode.name = `AutoCon Frame ${frameIndex}`;
 
 	// offset each child by the groupNode x y, or it gets double offset
 	const offsetX = groupNode.x;
@@ -65,7 +57,6 @@ export function frameAndAutoConstrainSelection() {
 	});
 
 	// groupNode.remove() // groupNode removes itself when it has no children
-	
 	parent.insertChild(frameInsertionIndex, frameNode);
 
 	frameNode.children.forEach((childNode) => autoConstraints(childNode));
