@@ -45,6 +45,11 @@ How Constraints are auto assigned. Works the same way for both x and y dimension
 
 
 ## TODO
+- Bugs
+  - When making a frame in an autolayout, don't assign group x,y
+  - lines don't work
+    - test other geometry...
+    - 
 - remove React if its not necessary
 - Watch Mode
   - add "Manual Constraints" setting to watch mode - experiment with auto detecting "Manual Constraints" by inspecting interaction by inspecting pre/post selection differences in Constraints
