@@ -1,6 +1,6 @@
 {
 	"name": "auto-constraints-figma-plugin",
-	"version": "1.0.1",
+	"version": "1.0.2",
 	"description": "Apply constraints automatically based on child placement within parent frame",
 	"author": "James Bradford",
 	"license": "BSD-3-Clause",
