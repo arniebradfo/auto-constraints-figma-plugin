@@ -17,7 +17,7 @@ figma.on('run', (event) => {
 		figma.notify('Make a Selection to Auto Constrain');
 		figma.closePlugin();
 	} else {
-		if (command === 'constrainSelection') autoConstrainSelection();
+		if (command === 'constrainSelection') autoConstrainSelection(); // ctrl F
 		if (command === 'constrainChildren') autoConstrainSelectionChildren();
 		if (command === 'constrainDescendants') autoConstrainSelectionDescendants();
 		if (command === 'frameAndConstrainSelection') frameAndAutoConstrainSelection(); // ctrl opt F
