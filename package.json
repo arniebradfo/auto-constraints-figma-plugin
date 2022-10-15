@@ -4,27 +4,17 @@
 	"description": "Apply constraints automatically based on child placement within parent frame",
 	"author": "James Bradford",
 	"license": "BSD-3-Clause",
+	"main": "dist/main.js",
 	"scripts": {
 		"start": "yarn build:watch",
 		"build": "webpack --mode=production",
 		"build:watch": "webpack --mode=development --watch"
 	},
-	"dependencies": {
-		"figma-plugin-ds": "^1.0.1",
-		"react": "^17.0.2",
-		"react-dom": "^17.0.2"
-	},
 	"devDependencies": {
 		"@figma/plugin-typings": "^1.52.0",
-		"@types/react": "^17.0.50",
-		"@types/react-dom": "^17.0.17",
-		"css-loader": "^5.2.7",
-		"html-webpack-inline-source-plugin": "^0.0.10",
-		"html-webpack-plugin": "^3.2.0",
-		"style-loader": "^2.0.0",
+		"@types/node": "^18.7.23",
 		"ts-loader": "^8.4.0",
 		"typescript": "^4.8.3",
-		"url-loader": "^4.1.1",
 		"webpack": "^4.46.0",
 		"webpack-cli": "^3.3.12"
 	}

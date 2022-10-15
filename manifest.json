@@ -2,8 +2,8 @@
 	"name": "Auto Constraints",
 	"id": "1155285435916019216",
 	"api": "1.0.0",
-	"main": "dist/code.js",
-	"ui": "dist/ui.html",
+	"main": "dist/main.js",
+	"ui": "index.html",
 	"editorType": ["figma"],
 	"menu": [
 		{

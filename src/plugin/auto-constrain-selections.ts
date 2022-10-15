@@ -57,6 +57,8 @@ export function frameAndAutoConstrainSelection() {
 	});
 
 	// groupNode.remove() // groupNode removes itself when it has no children
+	// console.log({ parentLength: parent.children.length, frameInsertionIndex });
+
 	parent.insertChild(frameInsertionIndex, frameNode);
 
 	frameNode.children.forEach((childNode) => autoConstraints(childNode));

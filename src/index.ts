@@ -1,12 +1,12 @@
-import { CommandType } from '../messages';
+import { CommandType } from './messages';
 import {
 	autoConstrainSelection,
 	autoConstrainSelectionChildren,
 	autoConstrainSelectionDescendants,
 	frameAndAutoConstrainSelection,
 	unGroupAndAutoConstrainSelection,
-} from './auto-constrain-selections';
-import { ignoreSelection, includeSelection, watchMode } from './watch-mode';
+} from './plugin/auto-constrain-selections';
+import { ignoreSelection, includeSelection, watchMode } from './plugin/watch-mode';
 
 figma.on('run', (event) => {
 	const command = event.command as CommandType;

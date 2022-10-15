@@ -1,47 +1,63 @@
-const HtmlWebpackInlineSourcePlugin = require('html-webpack-inline-source-plugin')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
-const path = require('path')
+// const InlineChunkHtmlPlugin = require('react-dev-utils/InlineChunkHtmlPlugin');
+// const HtmlWebpackPlugin = require('html-webpack-plugin');
+
+const path = require('path');
+// const webpack = require('webpack');
 
 module.exports = (env, argv) => ({
-  mode: argv.mode === 'production' ? 'production' : 'development',
+	mode: argv.mode === 'production' ? 'production' : 'development',
 
-  // This is necessary because Figma's 'eval' works differently than normal eval
-  devtool: argv.mode === 'production' ? false : 'inline-source-map',
+	// This is necessary because Figma's 'eval' works differently than normal eval
+	devtool: argv.mode === 'production' ? false : 'inline-source-map',
 
-  entry: {
-    ui: './src/app/index.tsx', // The entry point for your UI code
-    code: './src/plugin/controller.ts', // The entry point for your plugin code
-  },
+	// entry: {
+	// 	ui: './src/ui.tsx', // The entry point for your UI code
+	// 	code: './src/code.ts', // The entry point for your plugin code
+	// },
+    entry: './src/index.ts',
 
-  module: {
-    rules: [
-      // Converts TypeScript code to JavaScript
-      { test: /\.tsx?$/, use: 'ts-loader', exclude: /node_modules/ },
+	module: {
+		rules: [
+			// Converts TypeScript code to JavaScript
+			{
+				test: /\.tsx?$/,
+				use: 'ts-loader',
+				exclude: /node_modules/,
+			},
 
-      // Enables including CSS by doing "import './file.css'" in your TypeScript code
-      { test: /\.css$/, use: ['style-loader', { loader: 'css-loader' }] },
+			// Enables including CSS by doing "import './file.css'" in your TypeScript code
+			// {
+			// 	test: /\.css$/,
+			// 	use: ['style-loader', 'css-loader'],
+			// },
+			// Allows you to use "<%= require('./file.svg') %>" in your HTML code to get a data URI
+			// { test: /\.(png|jpg|gif|webp|svg|zip)$/, loader: [{ loader: 'url-loader' }] }
+			// {
+			// 	test: /\.svg/,
+			// 	type: 'asset/inline',
+			// },
+		],
+	},
 
-      // Allows you to use "<%= require('./file.svg') %>" in your HTML code to get a data URI
-      { test: /\.(png|jpg|gif|webp|svg)$/, loader: 'url-loader' },
-    ],
-  },
+	// Webpack tries these extensions for you if you omit the extension like "import './file'"
+	resolve: { extensions: ['.tsx', '.ts', '.jsx', '.js'] },
 
-  // Webpack tries these extensions for you if you omit the extension like "import './file'"
-  resolve: { extensions: ['.tsx', '.ts', '.jsx', '.js'] },
+	output: {
+		filename: '[name].js',
+		path: path.resolve(__dirname, 'dist'), // Compile into a folder called "dist"
+	},
 
-  output: {
-    filename: '[name].js',
-    path: path.resolve(__dirname, 'dist'), // Compile into a folder called "dist"
-  },
-
-  // Tells Webpack to generate "ui.html" and to inline "ui.ts" into it
-  plugins: [
-    new HtmlWebpackPlugin({
-      template: './src/app/index.html',
-      filename: 'ui.html',
-      inlineSource: '.(js)$',
-      chunks: ['ui'],
-    }),
-    new HtmlWebpackInlineSourcePlugin(),
-  ],
-})
+	// Tells Webpack to generate "ui.html" and to inline "ui.ts" into it
+	// plugins: [
+	// 	new webpack.DefinePlugin({
+	// 		global: {}, // Fix missing symbol error when running in developer VM
+	// 	}),
+	// 	new HtmlWebpackPlugin({
+	// 		inject: 'body',
+	// 		template: './src/ui.html',
+	// 		filename: 'ui.html',
+	// 		chunks: ['ui'],
+	// 	}),
+	// 	new InlineChunkHtmlPlugin(HtmlWebpackPlugin, [/ui/]),
+	// ],
+});
