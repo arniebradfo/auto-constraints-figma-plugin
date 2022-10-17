@@ -12,7 +12,7 @@ Apply constraints layout automatically based on child placement within parent fr
 - **UnGroup and Auto Constrain Selection**: Ungroup the selected objects and auto constrain children to the new parent frame
 - **Watch Mode** *(beta)*: PluginUI to Auto Constrain Selection whenever object selection changes
   - This applies Auto Constraints to every element as it is selected and as it is deselected. 
-- Ignore Node: Watch Mode will not apply Auto Constraints to this node. Similar to XD's "Responsive Resize: Manual"
+- **Ignore Selection**: Watch Mode will not apply Auto Constraints to this node. Similar to XD's "Responsive Resize: Manual"
 
 
 ## Set Keyboard Shortcuts on macOS
@@ -48,6 +48,6 @@ How Constraints are auto assigned. Works the same way for both x and y dimension
 - Bugs
   - ...
 - Watch Mode
-  - add "Manual Constraints" setting to watch mode 
-    - experiment with auto detecting "Manual Constraints" by inspecting interaction by inspecting pre/post selection differences in Constraints
+  - add an `isRunning` boolean to relaunch watchmode if it was stopped by another command.
+  - experiment with auto detecting "Manual Constraints" by inspecting pre/post selection differences in Constraints
   - experiment with hiding UI in watch mode
