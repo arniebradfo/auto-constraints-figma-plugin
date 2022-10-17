@@ -17,6 +17,14 @@
 		{
 			"name": "Ungroup Selection",
 			"command": "unGroupAndConstrainSelection"
+		},
+		{
+			"name": "Ignore Selection",
+			"command": "ignoreSelection"
+		},
+		{
+			"name": "Watch Mode (beta)",
+			"command": "watchMode"
 		}
 	],
 	"relaunchButtons": [

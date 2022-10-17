@@ -47,14 +47,3 @@ export function isNodeIgnored(node: SceneNode) {
 	}
 ]
 */
-
-/* "menu": [...
-		{
-			"name": "Ignore Selection",
-			"command": "ignoreSelection"
-		},
-		{
-			"name": "Watch Mode (beta)",
-			"command": "watchMode"
-		}
-*/
