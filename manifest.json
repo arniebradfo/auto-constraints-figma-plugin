@@ -18,5 +18,12 @@
 			"name": "Ungroup Selection",
 			"command": "unGroupAndConstrainSelection"
 		}
+	],
+	"relaunchButtons": [
+		{
+			"name": "Ignored by Auto Constraints",
+			"command": "ignoreSelection",
+			"multipleSelection": true
+		}
 	]
 }

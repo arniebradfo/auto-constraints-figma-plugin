@@ -48,9 +48,7 @@ export function isNodeIgnored(node: SceneNode) {
 ]
 */
 
-/* 
-"menu": [
-	...
+/* "menu": [...
 		{
 			"name": "Ignore Selection",
 			"command": "ignoreSelection"
@@ -59,12 +57,4 @@ export function isNodeIgnored(node: SceneNode) {
 			"name": "Watch Mode (beta)",
 			"command": "watchMode"
 		}
-],
-"relaunchButtons": [
-		{
-			"name": "Ignored by Auto Constraints",
-			"command": "ignoreSelection",
-			"multipleSelection": true
-		}
-	]
 */
