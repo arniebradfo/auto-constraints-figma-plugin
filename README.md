@@ -47,6 +47,7 @@ How Constraints are auto assigned. Works the same way for both x and y dimension
 ## TODO
 - Bugs
   - ...
+- Apply to group applies to children what the group would be
 - Watch Mode
   - add an `isRunning` boolean to relaunch watchmode if it was stopped by another command.
   - experiment with auto detecting "Manual Constraints" by inspecting pre/post selection differences in Constraints

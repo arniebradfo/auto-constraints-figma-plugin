@@ -3,6 +3,7 @@ import { autoConstraints } from './auto-constraints';
 export function autoConstrainSelection(selection?: SceneNode[]) {
 	selection = selection || (figma.currentPage.selection as SceneNode[]);
 	selection.forEach((node) => autoConstraints(node));
+	figma.notify('Auto Constraints Applied')
 }
 
 // UNUSED //
@@ -24,6 +25,7 @@ export function unGroupAndAutoConstrainSelection() {
 			children.forEach((childNode) => autoConstraints(childNode));
 		}
 	});
+	figma.notify('Ungrouped and Auto Constrained')
 }
 
 export function frameAndAutoConstrainSelection() {
@@ -64,6 +66,8 @@ export function frameAndAutoConstrainSelection() {
 	frameNode.children.forEach((childNode) => autoConstraints(childNode));
 
 	figma.currentPage.selection = [frameNode];
+
+	figma.notify('Selection Framed and Auto Constrained')
 }
 
 function getIndexInParent(node: SceneNode) {
