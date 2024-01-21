@@ -1,4 +1,4 @@
-![Auto Constraints Logo](./assets/Logo.svg)
+![Icon](./assets/Icon.svg)
 
 # Auto Constraints Figma Plugin
 Apply constraints layout automatically based on child placement within parent frame. Similar to how Adobe XD handles constraints in "Responsive Resize: Auto" mode.
@@ -52,3 +52,7 @@ How Constraints are auto assigned. Works the same way for both x and y dimension
   - add an `isRunning` boolean to relaunch watchmode if it was stopped by another command.
   - experiment with auto detecting "Manual Constraints" by inspecting pre/post selection differences in Constraints
   - experiment with hiding UI in watch mode
+
+---
+
+![Cover Art](./assets/CoverArt.png)

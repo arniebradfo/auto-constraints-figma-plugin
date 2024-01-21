@@ -5,6 +5,9 @@
 	"main": "dist/main.js",
 	"ui": "index.html",
 	"editorType": ["figma"],
+	"networkAccess": {
+		"allowedDomains": ["none"]
+	},
 	"menu": [
 		{
 			"name": "Selection",
