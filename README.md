@@ -1,4 +1,4 @@
-![Icon](./assets/Icon.svg)
+![Cover Art](./assets/CoverArt.png)
 
 # Auto Constraints Figma Plugin
 Apply constraints layout automatically based on child placement within parent frame. Similar to how Adobe XD handles constraints in "Responsive Resize: Auto" mode.
@@ -46,6 +46,13 @@ How Constraints are auto assigned. Works the same way for both x and y dimension
 
 ## TODO
 - Bugs
+  - allow some margin for "centered in parent" based on ratio of parent size to child size
+  - re-organize command names
+    - Selection
+    - Frame
+    - UnGroup
+    - Watch Mode (Beta) > Start
+    - Watch Mode (Beta) > Ignore Node
   - ...
 - Apply to group applies to children what the group would be
 - Watch Mode
@@ -53,6 +60,3 @@ How Constraints are auto assigned. Works the same way for both x and y dimension
   - experiment with auto detecting "Manual Constraints" by inspecting pre/post selection differences in Constraints
   - experiment with hiding UI in watch mode
 
----
-
-![Cover Art](./assets/CoverArt.png)
