@@ -1,17 +1,17 @@
 {
+  "include": ["src/**/*.ts"],
   "compilerOptions": {
-    "moduleResolution": "node",
-    "target": "es6",
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "target": "es2017",
+    "lib": ["es2017"],
+    "rootDir": "src",
     "outDir": "dist",
-    "jsx": "react",
+    "strict": false,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "experimentalDecorators": true,
     "removeComments": true,
     "noImplicitAny": false,
-    "typeRoots": [
-      "./node_modules/@types",
-      "./node_modules/@figma"
-    ]
+    "types": ["@figma/plugin-typings"]
   }
 }

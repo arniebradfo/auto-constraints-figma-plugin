@@ -46,7 +46,7 @@ export function autoConstraints(node: SceneNode) {
 	// 'STRETCH' seems pretty dangerous actually...
 
 	// don't apply 'STRETCH' to any object with constrained proportions
-	const dontStretchAny = child.type !== 'LINE' && child.constrainProportions;
+	const dontStretchAny = child.type !== 'LINE' && 'targetAspectRatio' in child && child.targetAspectRatio != null;
 
 	// don't apply 'STRETCH' to auto layouts that hug, or have no children that fill
 	const dontStretchAutoLayoutHorizontal = dontStretchAutoLayout(node, 'HORIZONTAL');

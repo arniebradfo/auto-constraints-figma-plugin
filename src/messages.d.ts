@@ -1,6 +1,6 @@
 export type FigmaPluginMessage<T extends Message = AnyMessage> = { pluginId?: string; pluginMessage: T };
 
-export type FigmaPluginMessageEvent<T extends Message = AnyMessage> = MessageEvent<FigmaPluginMessage<T>>;
+export type FigmaPluginMessageEvent<T extends Message = AnyMessage> = { data: FigmaPluginMessage<T> }; // shape of the UI-side MessageEvent
 
 export type CommandType =
 	| 'constrainSelection'
